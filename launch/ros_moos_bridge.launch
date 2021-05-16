@@ -2,7 +2,7 @@
   <node pkg="ros_moos_bridge" name="nmea_client" type="nmea_client.py" output="screen">
     <rosparam command="load" file="$(find ros_moos_bridge)/params.yaml"/>
   </node>
-  <node pkg="ros_moos_bridge" name="gps_to_nmea" type="gps_to_nmea.py" output="screen">
+  <node pkg="ros_moos_bridge" name="sensors_to_nmea" type="sensors_to_nmea.py" output="screen">
     <rosparam command="load" file="$(find ros_moos_bridge)/params.yaml"/>
   </node>
 </launch>

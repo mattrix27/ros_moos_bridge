@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import rospy
@@ -8,8 +8,6 @@ import socket
 HOST = "localhost"
 #HOST = '192.168.1.151'
 #HOST = '192.168.1.188'
-# HOST = '172.17.0.1'  # Docker ip address. See ifconfig: docker0
-#HOST = '172.21.0.1'  # Docker ip address. See ifconfig: docker0
 #HOST = "$(optenv HOST)"
 #PORT = "$(optenv PORT)"
 PORT = 2000
@@ -24,14 +22,16 @@ except:
 
 def sendNMEACallback(message):
   nmea_message = message.sentence
+  #print(nmea_message)
   if len(nmea_message) > 0:
     if nmea_message[-1] != '\n':
       nmea_message += '\n'
     try:
-      sock.sendall(nmea_message)
+      sock.sendall(nmea_message.encode())
       #print("Sent: %s" % nmea_message)
     except:
       print("ERROR sending %s" % sys.exc_info()[0])
+
 
 def nmea_client():
   rospy.init_node('nmea_client')
@@ -50,10 +50,9 @@ def nmea_client():
       # nmea_sentence.header.frame_id = "gps_wamv_link"
       nmea_sentence.header.frame_id = "bv_data"
       nmea_sentence.sentence = s.strip()
-      pub.publish(nmea_sentence)
-    
-    
-   
+      pub.publish(nmea_sentence)    
+
+
 try:
   nmea_client()
 except rospy.ROSInterruptException:
